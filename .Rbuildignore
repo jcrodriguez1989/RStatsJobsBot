@@ -1,0 +1,7 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^LICENSE\.md$
+^\.httr-oauth$
+^rstatsjobs_tweets\.rds$
+^rstatsjobs_tweets\.csv$
+^RStatsJobs_tweets\.R$
