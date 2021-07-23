@@ -46,7 +46,7 @@ jobs:
             rtweet_consumer_secret = Sys.getenv("RTWEET_CONSUMER_SECRET"),
             rtweet_access_token = Sys.getenv("RTWEET_ACCESS_TOKEN"),
             rtweet_access_secret = Sys.getenv("RTWEET_ACCESS_SECRET"),
-            from_time = Sys.time() - 60 * 15,
+            from_time = Sys.time() - 60 * 60,
             max_hashtags = 15
           )
         shell: Rscript {0}
