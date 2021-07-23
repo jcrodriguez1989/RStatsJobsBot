@@ -1,0 +1,137 @@
+\documentclass[]{elsarticle} %review=doublespace preprint=single 5p=2 column
+%%% Begin My package additions %%%%%%%%%%%%%%%%%%%
+\usepackage[hyphens]{url}
+
+  \journal{Latinamerican Conference About the Use of R in
+R\&D} % Sets Journal name
+
+
+\usepackage{lineno} % add
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\usepackage{graphicx}
+\usepackage{booktabs} % book-quality tables
+%%%%%%%%%%%%%%%% end my additions to header
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \usepackage{fontspec}
+  \ifxetex
+    \usepackage{xltxtra,xunicode}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use microtype if available
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+\bibliographystyle{elsarticle-harv}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={},
+            pdftitle={RStatsJobsBot: My journey on developing an R-based Twitter bot},
+            colorlinks=false,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+
+\setcounter{secnumdepth}{0}
+% Pandoc toggle for numbering sections (defaults to be off)
+\setcounter{secnumdepth}{0}
+
+% Pandoc citation processing
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+% for Pandoc 2.8 to 2.10.1
+\newenvironment{cslreferences}%
+  {}%
+  {\par}
+% For Pandoc 2.11+
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+% Pandoc header
+
+
+
+\begin{document}
+\begin{frontmatter}
+
+  \title{RStatsJobsBot: My journey on developing an R-based Twitter bot}
+    \author[FAMAF - UNC]{Juan Cruz Rodriguez\corref{Corresponding
+Author}}
+   \ead{jcrodriguez@unc.edu.ar} 
+      \address[FAMAF - UNC]{FAMAF, Universidad Nacional de Córdoba,
+Argentina}
+    
+  \begin{abstract}
+  
+  \end{abstract}
+   \begin{keyword} Bot, Twitter, Automation\end{keyword}
+ \end{frontmatter}
+
+Twitter is one of the social networks most used by the R users
+community, and possibly the one that offers the greatest flexibility for
+its programmatic access
+(\href{https://github.com/ropensci/rtweet}{\texttt{\{rtweet\}}} (Kearney
+2019)). In this regard, Twitter bots result as an excellent tool to
+promote our product or tool. However, it is not usual to find a wide
+variety of bots related to R, compared to other topics or programming
+languages. This is not due to greater difficulty in itself but to a lack
+of familiarity with the subject in R.
+
+In this flash talk, I will show the learning path I took to bring an
+idea to \href{https://twitter.com/RStatsJobsBot}{@RStatsJobsBot}, a
+Twitter bot that currently has over 750 followers. @RStatsJobsBot runs
+completely on R, and is deployed and continuously running on Github
+Actions. I intend that after this talk, \textbf{you will be able to
+create your own R Twitter bot} without the need for additional hardware
+or a server.
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\hypertarget{ref-rtweet-package}{}%
+Kearney, Michael W. 2019. {``Rtweet: Collecting and Analyzing Twitter
+Data.''} \emph{Journal of Open Source Software} 4 (42): 1829.
+\url{https://doi.org/10.21105/joss.01829}.
+
+\end{CSLReferences}
+
+
+\end{document}

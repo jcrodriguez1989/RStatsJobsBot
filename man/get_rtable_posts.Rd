@@ -4,12 +4,15 @@
 \alias{get_rtable_posts}
 \title{Get retweetable tweets.}
 \usage{
-get_rtable_posts(user, from_time)
+get_rtable_posts(user, from_time, max_hashtags)
 }
 \arguments{
 \item{user}{A character with the bot username.}
 
 \item{from_time}{A POSIXct indicating minimum tweets time to attend.}
+
+\item{max_hashtags}{Numeric indicating the max number of hashtags that a
+tweet can have (removed if has more).}
 }
 \description{
 Returns a table of tweets to retweet.

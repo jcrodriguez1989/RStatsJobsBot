@@ -5,21 +5,33 @@
 \title{Start RStatsJobsBot bot server.}
 \usage{
 start_rstatsjobsbot(
-  user = "@RStatsJobsBot",
+  rtweet_app,
+  rtweet_consumer_key,
+  rtweet_consumer_secret,
+  rtweet_access_token,
+  rtweet_access_secret,
+  user = "RStatsJobsBot",
   from_time = Sys.time(),
-  sleep_secs = 15 * 60,
-  rtweet_token_file = NULL
+  max_hashtags = 15
 )
 }
 \arguments{
+\item{rtweet_app}{Twitter credentials.}
+
+\item{rtweet_consumer_key}{Twitter credentials.}
+
+\item{rtweet_consumer_secret}{Twitter credentials.}
+
+\item{rtweet_access_token}{Twitter credentials.}
+
+\item{rtweet_access_secret}{Twitter credentials.}
+
 \item{user}{A character with the bot username.}
 
 \item{from_time}{A POSIXct indicating minimum tweets time to attend.}
 
-\item{sleep_secs}{Numeric indicating the seconds to sleep between execution.}
-
-\item{rtweet_token_file}{A character with the file path of an rds file with
-the rtweet token to be used. If NULL, it will load the default token.}
+\item{max_hashtags}{Numeric indicating the max number of hashtags that a
+tweet can have (removed if has more).}
 }
 \description{
 Starts the server, will be executing until it is aborted Ctrl+c .

@@ -5,3 +5,4 @@
 ^rstatsjobs_tweets\.rds$
 ^rstatsjobs_tweets\.csv$
 ^RStatsJobs_tweets\.R$
+^publications$

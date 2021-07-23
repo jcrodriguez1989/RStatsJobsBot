@@ -1,0 +1,24 @@
+---
+title: "RStatsJobsBot: My journey on developing an R-based Twitter bot"
+author:
+  - name: Juan Cruz Rodriguez
+    email: jcrodriguez@unc.edu.ar
+    affiliation: FAMAF - UNC
+    footnote: Corresponding Author
+address:
+  - code: FAMAF - UNC
+    address: FAMAF, Universidad Nacional de Córdoba, Argentina
+
+journal: "Latinamerican Conference About the Use of R in R&D"
+date: "`r Sys.Date()`"
+keywords: Bot, Twitter, Automation
+bibliography: mybibfile.bib
+output: rticles::elsevier_article
+---
+
+Twitter is one of the social networks most used by the R users community, and possibly the one that offers the greatest flexibility for its programmatic access ([`{rtweet}`](https://github.com/ropensci/rtweet) [@rtweet-package]). In this regard, Twitter bots result as an excellent tool to promote our product or tool. However, it is not usual to find a wide variety of bots related to R, compared to other topics or programming languages. This is not due to greater difficulty in itself but to a lack of familiarity with the subject in R.
+
+In this flash talk, I will show the learning path I took to bring an idea to [\@RStatsJobsBot](https://twitter.com/RStatsJobsBot), a Twitter bot that currently has over 750 followers. \@RStatsJobsBot runs completely on R, and is deployed and continuously running on Github Actions. I intend that after this talk, **you will be able to create your own R Twitter bot** without the need for additional hardware or a server.
+
+References {#references .unnumbered}
+==========

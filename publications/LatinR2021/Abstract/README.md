@@ -1,0 +1,7 @@
+RStatsJobsBot abstract for LatinR2021 conference
+================
+
+Files for the RStatsJobsBot abstract for [LatinR2021
+conference](https://latin-r.com/).
+
+Requires package `rticles` in order to Knit abstract.
