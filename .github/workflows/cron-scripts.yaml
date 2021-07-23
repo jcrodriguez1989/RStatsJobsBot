@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: "* * * * *"
+    - cron: "broken*cron * * * *"
 
 name: cron-scripts
 
