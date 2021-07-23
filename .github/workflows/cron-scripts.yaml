@@ -5,7 +5,7 @@ on:
 name: cron-scripts
 
 jobs:
-  RunReport:
+  run:
     runs-on: ubuntu-20.04
     timeout-minutes: 15
     env:
@@ -41,11 +41,11 @@ jobs:
         shell: Rscript {0}
       - name: Run cron scripts
         env:
-          RTWEET_APP: ${{ ENV_VARS.RTWEET_APP }}
-          RTWEET_CONSUMER_KEY: ${{ ENV_VARS.RTWEET_CONSUMER_KEY }}
-          RTWEET_CONSUMER_SECRET: ${{ ENV_VARS.RTWEET_CONSUMER_SECRET }}
-          RTWEET_ACCESS_TOKEN: ${{ ENV_VARS.RTWEET_ACCESS_TOKEN }}
-          RTWEET_ACCESS_SECRET: ${{ ENV_VARS.RTWEET_ACCESS_SECRET }}
+          RTWEET_APP: ${{ secrets.RTWEET_APP }}
+          RTWEET_CONSUMER_KEY: ${{ secrets.RTWEET_CONSUMER_KEY }}
+          RTWEET_CONSUMER_SECRET: ${{ secrets.RTWEET_CONSUMER_SECRET }}
+          RTWEET_ACCESS_TOKEN: ${{ secrets.RTWEET_ACCESS_TOKEN }}
+          RTWEET_ACCESS_SECRET: ${{ secrets.RTWEET_ACCESS_SECRET }}
         run: |
           library("RStatsJobsBot")
           start_rstatsjobsbot(
