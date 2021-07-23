@@ -1,6 +1,7 @@
 on:
+  push:
   schedule:
-    - cron: "*/5  * * * *"
+    - cron: "*/15  * * * *"
 
 name: cron-scripts
 
