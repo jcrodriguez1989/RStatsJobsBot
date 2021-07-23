@@ -6,3 +6,4 @@
 ^rstatsjobs_tweets\.csv$
 ^RStatsJobs_tweets\.R$
 ^publications$
+^\.github$

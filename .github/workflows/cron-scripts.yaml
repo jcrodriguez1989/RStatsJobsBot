@@ -1,0 +1,60 @@
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+
+name: cron-scripts
+
+jobs:
+  RunReport:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 15
+    env:
+      R_COMPILE_AND_INSTALL_PACKAGES: never
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@v1
+        with:
+          r-version: '4.0.3' # The R version to download (if necessary) and use.
+      - name: Install system dependencies
+        run: |
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libgit2-dev libxml2-dev
+      - name: Query dependencies
+        run: |
+          install.packages("remotes")
+          deps <- remotes::dev_package_deps(".", dependencies = TRUE)
+          saveRDS(deps, ".github/depends.Rds", version = 2)
+          writeLines(
+            sprintf("R-%i.%i", getRversion()$major, getRversion()$minor),
+            ".github/R-version"
+          )
+        shell: Rscript {0}
+      - name: Cache R packages
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+      - name: Install remotes and the local package
+        run: |
+          remotes::install_local(".", force = TRUE)
+        shell: Rscript {0}
+      - name: Run cron scripts
+        env:
+          RTWEET_APP: ${{ ENV_VARS.RTWEET_APP }}
+          RTWEET_CONSUMER_KEY: ${{ ENV_VARS.RTWEET_CONSUMER_KEY }}
+          RTWEET_CONSUMER_SECRET: ${{ ENV_VARS.RTWEET_CONSUMER_SECRET }}
+          RTWEET_ACCESS_TOKEN: ${{ ENV_VARS.RTWEET_ACCESS_TOKEN }}
+          RTWEET_ACCESS_SECRET: ${{ ENV_VARS.RTWEET_ACCESS_SECRET }}
+        run: |
+          library("RStatsJobsBot")
+          start_rstatsjobsbot(
+            rtweet_app = Sys.getenv("RTWEET_APP"),
+            rtweet_consumer_key = Sys.getenv("RTWEET_CONSUMER_KEY"),
+            rtweet_consumer_secret = Sys.getenv("RTWEET_CONSUMER_SECRET"),
+            rtweet_access_token = Sys.getenv("RTWEET_ACCESS_TOKEN"),
+            rtweet_access_secret = Sys.getenv("RTWEET_ACCESS_SECRET"),
+            from_time = Sys.time() - 60 * 60 * 24 * 30,
+            max_hashtags = 15
+          )
+        shell: Rscript {0}
