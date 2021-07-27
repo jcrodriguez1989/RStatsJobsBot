@@ -38,10 +38,8 @@ jobs:
           RTWEET_CONSUMER_SECRET: ${{ secrets.RTWEET_CONSUMER_SECRET }}
           RTWEET_ACCESS_TOKEN: ${{ secrets.RTWEET_ACCESS_TOKEN }}
           RTWEET_ACCESS_SECRET: ${{ secrets.RTWEET_ACCESS_SECRET }}
-          PRUEBA: ${{ secrets.PRUEBA }}
         run: |
           library("RStatsJobsBot")
-          print(Sys.getenv("PRUEBA"))
           start_rstatsjobsbot(
             rtweet_app = Sys.getenv("RTWEET_APP"),
             rtweet_consumer_key = Sys.getenv("RTWEET_CONSUMER_KEY"),

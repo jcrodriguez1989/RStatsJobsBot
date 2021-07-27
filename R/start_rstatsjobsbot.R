@@ -11,21 +11,19 @@
 #' @param from_time A POSIXct indicating minimum tweets time to attend.
 #' @param max_hashtags Numeric indicating the max number of hashtags that a
 #'   tweet can have (removed if has more).
-#'   
+#'
 #' @importFrom rtweet create_token
 #'
 #' @export
 #'
-start_rstatsjobsbot <- function(
-  rtweet_app,
-  rtweet_consumer_key, 
-  rtweet_consumer_secret,
-  rtweet_access_token, 
-  rtweet_access_secret,
-  user = "RStatsJobsBot",
-  from_time = Sys.time(),
-  max_hashtags = 15
-  ) {
+start_rstatsjobsbot <- function(rtweet_app,
+                                rtweet_consumer_key,
+                                rtweet_consumer_secret,
+                                rtweet_access_token,
+                                rtweet_access_secret,
+                                user = "RStatsJobsBot",
+                                from_time = Sys.time(),
+                                max_hashtags = 15) {
   # Set Twitter credentials.
   create_token(
     app = rtweet_app, consumer_key = rtweet_consumer_key, consumer_secret = rtweet_consumer_secret,
@@ -53,14 +51,13 @@ start_rstatsjobsbot <- function(
 #' @param max_hashtags Numeric indicating the max number of hashtags that a
 #'   tweet can have (removed if has more).
 #'
-#' @importFrom dplyr `%>%` arrange distinct filter
-#' @importFrom rtweet search_tweets
+#' @importFrom dplyr `%>%` anti_join arrange distinct filter
+#' @importFrom rtweet get_timeline search_tweets
 #' @importFrom stringr str_count
 #'
 get_rtable_posts <- function(user, from_time, max_hashtags) {
   # Avoid R CMD check warnings.
-  reply_to_screen_name <- screen_name <- created_at <- is_retweet <- text <-
-    NULL
+  reply_to_screen_name <- screen_name <- created_at <- is_retweet <- text <- NULL
   # Get tweets with my username, and newer than from_time.
   mentions <- try({
     search_tweets(user, type = "recent", include_rts = FALSE) %>%
@@ -88,8 +85,9 @@ get_rtable_posts <- function(user, from_time, max_hashtags) {
   if (inherits(kword_tweets, "try-error")) {
     kword_tweets <- data.frame()
   }
-  # Return both mentions and kword_tweets.
+  # Return both mentions and kword_tweets, but remove already posted tweets.
   rbind(mentions, kword_tweets) %>% 
+    anti_join(get_timeline(user), by = c(status_id = "quoted_status_id")) %>%
     filter(str_count(text, "#") <= max_hashtags)
 }
 

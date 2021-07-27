@@ -2,10 +2,12 @@
 
 export(start_rstatsjobsbot)
 importFrom(dplyr,`%>%`)
+importFrom(dplyr,anti_join)
 importFrom(dplyr,arrange)
 importFrom(dplyr,distinct)
 importFrom(dplyr,filter)
 importFrom(rtweet,create_token)
+importFrom(rtweet,get_timeline)
 importFrom(rtweet,post_tweet)
 importFrom(rtweet,search_tweets)
 importFrom(stringr,str_count)
