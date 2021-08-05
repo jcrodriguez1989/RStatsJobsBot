@@ -16,7 +16,7 @@
 #'
 #' @export
 #'
-start_rstatsjobsbot <- function(rtweet_app,
+run_rstatsjobsbot <- function(rtweet_app,
                                 rtweet_consumer_key,
                                 rtweet_consumer_secret,
                                 rtweet_access_token,

@@ -11,14 +11,14 @@ address:
 
 journal: "Latinamerican Conference About the Use of R in R&D"
 date: "`r Sys.Date()`"
-keywords: Bot, Twitter, Automation
+keywords: Automation, Github Actions, Free, Server
 bibliography: mybibfile.bib
 output: rticles::elsevier_article
 ---
 
-Twitter is one of the social networks most used by the R users community, and possibly the one that offers the greatest flexibility for its programmatic access ([`{rtweet}`](https://github.com/ropensci/rtweet) [@rtweet-package]). In this regard, Twitter bots result as an excellent tool to promote our product or tool. However, it is not usual to find a wide variety of bots related to R, compared to other topics or programming languages. This is not due to greater difficulty in itself but to a lack of familiarity with the subject in R.
+Twitter is one of the social networks most used by the R users community. And possibly it is the social network that offers the greatest flexibility for its programmatic access ([`{rtweet}`](https://github.com/ropensci/rtweet) [@rtweet-package]). In this regard, Twitter bots result as an excellent tool to promote our product or tool. However, compared to other topics or programming languages, it is not usual to find a wide variety of bots related to R. This is not due to an increased difficulty itself, but rather due to unfamiliarity with automated bots in R.
 
-In this flash talk, I will show the learning path I took to bring an idea to [\@RStatsJobsBot](https://twitter.com/RStatsJobsBot), a Twitter bot that currently has over 750 followers. \@RStatsJobsBot runs completely on R, and is deployed and continuously running on Github Actions. I intend that after this talk, **you will be able to create your own R Twitter bot** without the need for additional hardware or a server.
+In this flash talk, I will show the learning path I took to bring an idea to  [\@RStatsJobsBot](https://twitter.com/RStatsJobsBot), a Twitter bot that currently has over 750 followers. The \@RStatsJobsBot runs entirely on R and is deployed and continuously running on Github Actions. I intend that after this talk, **you will be able to create your own R bot** without the need for additional hardware or a server.
 
 References {#references .unnumbered}
 ==========

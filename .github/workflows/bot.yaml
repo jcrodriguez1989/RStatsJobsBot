@@ -1,11 +1,11 @@
 on:
   schedule:
-    - cron: "*/15  * * * *"
+    - cron: "*/15 * * * *"
 
-name: cron-scripts
+name: bot
 
 jobs:
-  run-cron-job:
+  run-bot-job:
     runs-on: ubuntu-20.04
     timeout-minutes: 15
     env:
@@ -14,24 +14,30 @@ jobs:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@v1
         with:
-          r-version: '4.0.3' # The R version to download (if necessary) and use.
+          r-version: '3.6.3'
       - name: Query dependencies
         run: |
-          install.packages('remotes') 
-           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2) 
-           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version") 
+          install.packages('remotes')
+           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
-      - name: Cache R packages
+      - name: Restore R package cache
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
-      - name: Install remotes and the local package
+      - name: Install system dependencies
+        run: |
+          while read -r cmd
+          do
+            eval sudo $cmd
+          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
+      - name: Install the package from the current repository
         run: |
           remotes::install_local(force = TRUE)
         shell: Rscript {0}
-      - name: Run cron scripts
+      - name: Run bot scripts
         env:
           RTWEET_APP: ${{ secrets.RTWEET_APP }}
           RTWEET_CONSUMER_KEY: ${{ secrets.RTWEET_CONSUMER_KEY }}
@@ -39,6 +45,7 @@ jobs:
           RTWEET_ACCESS_TOKEN: ${{ secrets.RTWEET_ACCESS_TOKEN }}
           RTWEET_ACCESS_SECRET: ${{ secrets.RTWEET_ACCESS_SECRET }}
         run: |
+          
           library("RStatsJobsBot")
           start_rstatsjobsbot(
             rtweet_app = Sys.getenv("RTWEET_APP"),
