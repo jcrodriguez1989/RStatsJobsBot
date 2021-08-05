@@ -47,7 +47,7 @@ jobs:
         run: |
           
           library("RStatsJobsBot")
-          start_rstatsjobsbot(
+          run_rstatsjobsbot(
             rtweet_app = Sys.getenv("RTWEET_APP"),
             rtweet_consumer_key = Sys.getenv("RTWEET_CONSUMER_KEY"),
             rtweet_consumer_secret = Sys.getenv("RTWEET_CONSUMER_SECRET"),
