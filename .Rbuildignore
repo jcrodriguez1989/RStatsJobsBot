@@ -7,3 +7,4 @@
 ^RStatsJobs_tweets\.R$
 ^publications$
 ^\.github$
+^README\.Rmd$
