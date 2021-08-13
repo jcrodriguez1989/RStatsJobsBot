@@ -4,7 +4,7 @@
 \alias{get_rtable_posts}
 \title{Get retweetable tweets.}
 \usage{
-get_rtable_posts(user, from_time, max_hashtags)
+get_rtable_posts(user, from_time, max_hashtags, blocked)
 }
 \arguments{
 \item{user}{A character with the bot username.}
@@ -13,6 +13,8 @@ get_rtable_posts(user, from_time, max_hashtags)
 
 \item{max_hashtags}{Numeric indicating the max number of hashtags that a
 tweet can have (removed if has more).}
+
+\item{blocked}{A character vector with the `screen_name`s of blocked accounts (not to retweet).}
 }
 \description{
 Returns a table of tweets to retweet.

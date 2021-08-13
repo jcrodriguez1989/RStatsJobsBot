@@ -12,7 +12,8 @@ run_rstatsjobsbot(
   rtweet_access_secret,
   user = "RStatsJobsBot",
   from_time = Sys.time(),
-  max_hashtags = 15
+  max_hashtags = 15,
+  blocked = c()
 )
 }
 \arguments{
@@ -32,6 +33,8 @@ run_rstatsjobsbot(
 
 \item{max_hashtags}{Numeric indicating the max number of hashtags that a
 tweet can have (removed if has more).}
+
+\item{blocked}{A character vector with the `screen_name`s of blocked accounts (not to retweet).}
 }
 \description{
 Starts the server, will be executing until it is aborted Ctrl+c .
