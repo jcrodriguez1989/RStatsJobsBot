@@ -55,6 +55,6 @@ jobs:
             rtweet_access_secret = Sys.getenv("RTWEET_ACCESS_SECRET"),
             from_time = Sys.time() - 60 * 60,
             max_hashtags = 15,
-            blocked = c('Philip_D_Hughes')
+            blocked = c('Philip_D_Hughes', 'Python_cursos')
           )
         shell: Rscript {0}
