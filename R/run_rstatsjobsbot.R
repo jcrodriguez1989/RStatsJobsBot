@@ -13,6 +13,7 @@
 #'   tweet can have (removed if has more).
 #' @param blocked A character vector with the `screen_name`s of blocked accounts (not to retweet).
 #'
+#' @importFrom dplyr distinct
 #' @importFrom rtweet create_token
 #'
 #' @export
@@ -40,6 +41,7 @@ run_rstatsjobsbot <- function(rtweet_app,
   if (nrow(rtable_posts) > 0) {
     from_time <- max(rtable_posts$created_at)
     # Start retweeting.
+    rtable_posts <- distinct(rtable_posts, status_url, .keep_all = TRUE)
     apply(rtable_posts, 1, retweet)
   }
 }
