@@ -36,10 +36,7 @@ run_rstatsjobsbot <- function(rtweet_app,
   # Get posts that should be retweeted.
   rtable_posts <- get_rtable_posts(user, from_time, max_hashtags, blocked)
   message(paste0(Sys.time(), " - ", nrow(rtable_posts), " tweets to rt."))
-  # Update from_time.
-  from_time <- Sys.time()
   if (nrow(rtable_posts) > 0) {
-    from_time <- max(rtable_posts$created_at)
     # Start retweeting.
     rtable_posts <- distinct(rtable_posts, status_url, .keep_all = TRUE)
     apply(rtable_posts, 1, retweet)
@@ -63,30 +60,18 @@ run_rstatsjobsbot <- function(rtweet_app,
 get_rtable_posts <- function(user, from_time, max_hashtags, blocked) {
   # Avoid R CMD check warnings.
   reply_to_screen_name <- screen_name <- created_at <- is_retweet <- text <- NULL
-  # Get tweets with my username, and newer than from_time.
-  mentions <- try({
-    search_tweets(user, type = "recent", include_rts = FALSE) %>%
-      # Remove replies to me, or posts written by me.
-      filter(!reply_to_screen_name %in% user & !screen_name %in% user) %>%
-      filter(created_at > from_time) %>% 
-      # Remove blocked accounts.
-      filter(!screen_name %in% blocked)
-  })
+  # Get tweets with my username.
+  mentions <- try(search_tweets(user, type = "recent", include_rts = FALSE))
   # If there was an error (internet mostly) return an empty data.frame .
   if (inherits(mentions, "try-error")) {
     mentions <- data.frame()
   }
-  # Get tweets containing the keywords, and newer than from_time.
+  # Get tweets containing the keywords.
   kword_tweets <- try({
     # For some reason it is not getting some tweets when `include_rts = FALSE`.
-    search_tweets(
-      "(rstat OR rstats) AND (hiring)",
-      type = "recent",
-      include_rts = FALSE
-    ) %>%
+    search_tweets("(rstat OR rstats) AND (hiring)", type = "recent", include_rts = FALSE) %>%
       arrange(is_retweet) %>%
-      distinct(text, .keep_all = TRUE) %>%
-      filter(created_at > from_time)
+      distinct(text, .keep_all = TRUE)
   })
   # If there was an error (internet mostly) return an empty data.frame .
   if (inherits(kword_tweets, "try-error")) {
@@ -94,7 +79,15 @@ get_rtable_posts <- function(user, from_time, max_hashtags, blocked) {
   }
   # Return both mentions and kword_tweets, but remove already posted tweets.
   rbind(mentions, kword_tweets) %>% 
+    # Remove replies to me, or posts written by me.
+    filter(!reply_to_screen_name %in% user & !screen_name %in% user) %>%
+    # Keep newer than from_time.
+    filter(created_at > from_time) %>% 
+    # Remove blocked accounts.
+    filter(!screen_name %in% blocked) %>% 
+    # Remove already tweeted by me.
     anti_join(get_timeline(user), by = c(status_id = "quoted_status_id")) %>%
+    # Remove tweets with multiple hashtags.
     filter(str_count(text, "#") <= max_hashtags)
 }
 
