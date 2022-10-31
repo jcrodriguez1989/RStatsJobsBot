@@ -4,9 +4,7 @@ on:
       - 'master'
   schedule:
     - cron: '*/15 * * * *'
-
 name: bot
-
 jobs:
   run-bot-job:
     runs-on: ubuntu-20.04
