@@ -2,8 +2,6 @@ on:
   push:
     branches:
       - 'master'
-  schedule:
-    - cron: '*/15 * * * *'
 name: bot
 jobs:
   run-bot-job:
