@@ -1,4 +1,6 @@
 on:
+  schedule:
+    - cron: '*/15 * * * *'
   push:
     branches:
       - 'master'
@@ -44,7 +46,6 @@ jobs:
           RTWEET_ACCESS_TOKEN: ${{ secrets.RTWEET_ACCESS_TOKEN }}
           RTWEET_ACCESS_SECRET: ${{ secrets.RTWEET_ACCESS_SECRET }}
         run: |
-          
           library("RStatsJobsBot")
           run_rstatsjobsbot(
             rtweet_app = Sys.getenv("RTWEET_APP"),
