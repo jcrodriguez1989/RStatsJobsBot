@@ -107,7 +107,7 @@ get_rtable_posts <- function(user, from_time, max_hashtags, blocked) {
     # Remove blocked accounts.
     filter(!screen_name %in% blocked) %>% 
     # Remove already tweeted by me.
-    filter(!quoted_status_id %in% get_timeline(user)$id_str) |> 
+    filter(!quoted_status_id %in% get_timeline(user)$id_str) %>% 
     # Remove tweets with multiple hashtags.
     filter(str_count(text, "#") <= max_hashtags)
 }
