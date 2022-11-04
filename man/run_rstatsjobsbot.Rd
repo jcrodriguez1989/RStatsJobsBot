@@ -5,6 +5,11 @@
 \title{Start RStatsJobsBot bot server.}
 \usage{
 run_rstatsjobsbot(
+  rtweet_app,
+  rtweet_consumer_key,
+  rtweet_consumer_secret,
+  rtweet_access_token,
+  rtweet_access_secret,
   user = "RStatsJobsBot",
   from_time = Sys.time(),
   max_hashtags = 15,
@@ -12,15 +17,6 @@ run_rstatsjobsbot(
 )
 }
 \arguments{
-\item{user}{A character with the bot username.}
-
-\item{from_time}{A POSIXct indicating minimum tweets time to attend.}
-
-\item{max_hashtags}{Numeric indicating the max number of hashtags that a
-tweet can have (removed if has more).}
-
-\item{blocked}{A character vector with the `screen_name`s of blocked accounts (not to retweet).}
-
 \item{rtweet_app}{Twitter credentials.}
 
 \item{rtweet_consumer_key}{Twitter credentials.}
@@ -30,6 +26,15 @@ tweet can have (removed if has more).}
 \item{rtweet_access_token}{Twitter credentials.}
 
 \item{rtweet_access_secret}{Twitter credentials.}
+
+\item{user}{A character with the bot username.}
+
+\item{from_time}{A POSIXct indicating minimum tweets time to attend.}
+
+\item{max_hashtags}{Numeric indicating the max number of hashtags that a
+tweet can have (removed if has more).}
+
+\item{blocked}{A character vector with the `screen_name`s of blocked accounts (not to retweet).}
 }
 \description{
 Starts the server, will be executing until it is aborted Ctrl+c .
