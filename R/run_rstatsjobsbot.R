@@ -43,6 +43,35 @@ run_rstatsjobsbot <- function(rtweet_app,
   }
 }
 
+#' Search Tweets With User Data.
+#' 
+#' Search tweets, and return them with users data.
+#' 
+#' @param q Query to be searched, see `?rtweet::search_tweets`.
+#' @param type Which type of search results to return, see `?rtweet::search_tweets`.
+#' @param include_rts Logical, indicating whether to include retweets in search results, see
+#'   `?rtweet::search_tweets`.
+#' 
+#' @importFrom dplyr `%>%` bind_cols rename_at
+#' @importFrom rtweet search_tweets users_data
+#' 
+search_tweets_with_user_data <- function(q, type = "recent", include_rts = FALSE) {
+  tweets <- try(search_tweets(q, type = type, include_rts = include_rts))
+  # If there was an error (internet mostly) return an empty data.frame .
+  if (inherits(tweets, "try-error")) {
+    return(data.frame(text = character()))
+  }
+  if (nrow(tweets) == 0) {
+    return(tweets)
+  }
+  tweets_users_data <- users_data(tweets) %>%
+    rename_at(
+      c("id", "id_str", "created_at", "withheld_in_countries", "withheld_scope", "entities"),
+      function(colname) paste0("users_data_", colname)
+    )
+  bind_cols(tweets, tweets_users_data)
+}
+
 #' Get retweetable tweets.
 #'
 #' Returns a table of tweets to retweet.
@@ -59,20 +88,12 @@ run_rstatsjobsbot <- function(rtweet_app,
 #'
 get_rtable_posts <- function(user, from_time, max_hashtags, blocked) {
   # Avoid R CMD check warnings.
-  reply_to_screen_name <- screen_name <- created_at <- is_retweet <- text <- NULL
+  reply_to_screen_name <- screen_name <- created_at <- text <- NULL
   # Get tweets with my username.
-  mentions <- try(search_tweets(user, type = "recent", include_rts = FALSE))
-  # If there was an error (internet mostly) return an empty data.frame .
-  if (inherits(mentions, "try-error")) {
-    mentions <- data.frame()
-  }
+  mentions <- search_tweets_with_user_data(user)
   # Get tweets containing the keywords.
-  kword_tweets <- try({
-    # For some reason it is not getting some tweets when `include_rts = FALSE`.
-    search_tweets("(rstat OR rstats) AND (hiring)", type = "recent", include_rts = FALSE) %>%
-      arrange(is_retweet) %>%
-      distinct(text, .keep_all = TRUE)
-  })
+  kword_tweets <- search_tweets_with_user_data("(rstat OR rstats) AND (hiring)") %>%
+    distinct(text, .keep_all = TRUE)
   # If there was an error (internet mostly) return an empty data.frame .
   if (inherits(kword_tweets, "try-error")) {
     kword_tweets <- data.frame()
@@ -80,13 +101,13 @@ get_rtable_posts <- function(user, from_time, max_hashtags, blocked) {
   # Return both mentions and kword_tweets, but remove already posted tweets.
   rbind(mentions, kword_tweets) %>% 
     # Remove replies to me, or posts written by me.
-    filter(!reply_to_screen_name %in% user & !screen_name %in% user) %>%
+    filter(!in_reply_to_screen_name %in% user & !screen_name %in% user) %>%
     # Keep newer than from_time.
     filter(created_at > from_time) %>% 
     # Remove blocked accounts.
     filter(!screen_name %in% blocked) %>% 
     # Remove already tweeted by me.
-    anti_join(get_timeline(user), by = c(status_id = "quoted_status_id")) %>%
+    filter(!quoted_status_id %in% get_timeline(user)$id_str) |> 
     # Remove tweets with multiple hashtags.
     filter(str_count(text, "#") <= max_hashtags)
 }
