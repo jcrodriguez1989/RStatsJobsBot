@@ -36,9 +36,10 @@ run_rstatsjobsbot <- function(rtweet_app,
   # Get posts that should be retweeted.
   rtable_posts <- get_rtable_posts(user, from_time, max_hashtags, blocked)
   message(paste0(Sys.time(), " - ", nrow(rtable_posts), " tweets to rt."))
+  id_str <- NULL
   if (nrow(rtable_posts) > 0) {
     # Start retweeting.
-    rtable_posts <- distinct(rtable_posts, status_url, .keep_all = TRUE)
+    rtable_posts <- distinct(rtable_posts, id_str, .keep_all = TRUE)
     apply(rtable_posts, 1, retweet)
   }
 }
@@ -88,7 +89,7 @@ search_tweets_with_user_data <- function(q, type = "recent", include_rts = FALSE
 #'
 get_rtable_posts <- function(user, from_time, max_hashtags, blocked) {
   # Avoid R CMD check warnings.
-  reply_to_screen_name <- screen_name <- created_at <- text <- NULL
+  in_reply_to_screen_name <- screen_name <- created_at <- text <- quoted_status_id <- NULL
   # Get tweets with my username.
   mentions <- search_tweets_with_user_data(user)
   # Get tweets containing the keywords.
@@ -121,7 +122,9 @@ get_rtable_posts <- function(user, from_time, max_hashtags, blocked) {
 #' @importFrom rtweet post_tweet
 #'
 retweet <- function(tweet) {
-  new_tweet_msg <- paste(random_job_message(1), tweet$status_url)
+  new_tweet_msg <- paste0(
+    random_job_message(1), " https://twitter.com/staceystats/status/", tweet$id_str
+  )
   suppressMessages(try(post_tweet(new_tweet_msg)))
   # This one just retweets:
   # suppressMessages(try(post_tweet(retweet_id = tweet$status_id)))
