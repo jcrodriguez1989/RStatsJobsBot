@@ -89,7 +89,7 @@ search_tweets_with_user_data <- function(q, type = "recent", include_rts = FALSE
 #'
 get_rtable_posts <- function(user, from_time, max_hashtags, blocked) {
   # Avoid R CMD check warnings.
-  in_reply_to_screen_name <- screen_name <- created_at <- text <- quoted_status_id <- NULL
+  in_reply_to_screen_name <- screen_name <- created_at <- text <- id_str <- NULL
   # Get tweets with my username.
   mentions <- search_tweets_with_user_data(user)
   # Get tweets containing the keywords.
